@@ -24,7 +24,13 @@ int main(int ac, char **av, char **env)
 	line = init_shell();
 
 	wrds = split_str(line);
-	check_builtins(wrds.array[0]);
+	status = check_builtins(wrds.array[0]);
+	if (status == 1)
+	{
+		free(line);
+		free(wrds.array);
+		_exit(0);
+	}
 
 	file_path = get_file_path(wrds.array[0]);
 	if (file_path == NULL)
@@ -38,8 +44,8 @@ int main(int ac, char **av, char **env)
 			if (execve(file_path, wrds.array, env) == -1)
 			{
 				perror(av[0]);
-				exit(EXIT_FAILURE);
 			}
+			exit(EXIT_FAILURE);
 		}
 		wait(&status);
 	}
