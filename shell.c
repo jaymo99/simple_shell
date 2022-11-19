@@ -21,7 +21,7 @@ int main(int ac, char **av, char **env)
 	words_n wrds;
 	pid_t child_pid;
 
-	while(status)
+	while (ac)
 	{
 		line = init_shell();
 		if (line == NULL)
@@ -34,9 +34,7 @@ int main(int ac, char **av, char **env)
 		status = check_builtins(wrds.array[0]);
 		if (status == 0)
 		{
-			free(line);
-			free(wrds.array);
-			_exit(0);
+			break;
 		}
 
 		file_path = get_file_path(wrds.array[0]);
