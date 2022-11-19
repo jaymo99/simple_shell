@@ -15,7 +15,7 @@
 words_n split_str(char *str)
 {
 	words_n wrds;
-	char **array;
+	char **array = NULL;
 	char *token, *copy;
 	int i = 0, num_words = 0, len = 0;
 
@@ -38,18 +38,21 @@ words_n split_str(char *str)
 	/*---------------------------------------------*/
 
 	/* insert tokens to array */
-	token = strtok(str, " ");
-	array = malloc(sizeof(char *) * num_words);
-	if (array == NULL)
+	if (num_words != 0)
 	{
-		perror("malloc failed to create array");
-		exit(EXIT_FAILURE);
-	}
+		token = strtok(str, " ");
+		array = malloc(sizeof(char *) * num_words);
+		if (array == NULL)
+		{
+			perror("malloc failed to create array");
+			exit(EXIT_FAILURE);
+		}
 
-	while (token != NULL)
-	{
-		array[i++] = token;
-		token = strtok(NULL, " ");
+		while (token != NULL)
+		{
+			array[i++] = token;
+			token = strtok(NULL, " ");
+		}
 	}
 	wrds.array = array;
 	wrds.num = num_words;

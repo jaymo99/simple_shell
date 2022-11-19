@@ -21,38 +21,42 @@ int main(int ac, char **av, char **env)
 	words_n wrds;
 	pid_t child_pid;
 
-	line = init_shell();
-
-	wrds = split_str(line);
-	status = check_builtins(wrds.array[0]);
-	if (status == 1)
+	while(1)
 	{
+		line = init_shell();
+
+		wrds = split_str(line);
+		if (wrds.array == NULL)
+			continue;
+
+		status = check_builtins(wrds.array[0]);
+		if (status == 1)
+		{
+			free(line);
+			free(wrds.array);
+			_exit(0);
+		}
+
+		file_path = get_file_path(wrds.array[0]);
+		if (file_path == NULL)
+			printf("command '%s' not found\n", wrds.array[0]);
+		else
+		{
+			child_pid = fork();
+
+			if (child_pid == 0)
+			{
+				if (execve(file_path, wrds.array, env) == -1)
+				{
+					perror(av[0]);
+				}
+				exit(EXIT_FAILURE);
+			}
+			wait(&status);
+		}
 		free(line);
 		free(wrds.array);
-		_exit(0);
 	}
-
-	file_path = get_file_path(wrds.array[0]);
-	if (file_path == NULL)
-		printf("command '%s' not found\n", wrds.array[0]);
-	else
-	{
-		child_pid = fork();
-
-		if (child_pid == 0)
-		{
-			if (execve(file_path, wrds.array, env) == -1)
-			{
-				perror(av[0]);
-			}
-			exit(EXIT_FAILURE);
-		}
-		wait(&status);
-	}
-	free(line);
-	free(wrds.array);
-	main(ac, av, env);
-
 	return (0);
 }
 

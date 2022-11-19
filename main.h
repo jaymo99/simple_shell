@@ -21,4 +21,3 @@ int check_builtins(char *cmd);
 char *init_shell(void);
 
 #endif /* MAIN_H */
-
