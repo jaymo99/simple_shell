@@ -16,12 +16,12 @@
  */
 int main(int ac, char **av, char **env)
 {
-	int status = 1;
+	int status = ac;
 	char *line, *file_path;
 	words_n wrds;
 	pid_t child_pid;
 
-	while (ac)
+	while (status)
 	{
 		line = init_shell();
 		if (line == NULL)
