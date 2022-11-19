@@ -93,14 +93,14 @@ char *find_file(char *token, char *file)
  *
  * @cmd: the command
  *
- * Return: 1 if @cmd is a built-in command
- * 0, otherwise
+ * Return: 0 if @cmd is a built-in command
+ * 1, otherwise
  */
 int check_builtins(char *cmd)
 {
 	if (strcmp(cmd, "exit") == 0)
 	{
-		return (1);
+		return (0);
 	}
-	return (0);
+	return (1);
 }

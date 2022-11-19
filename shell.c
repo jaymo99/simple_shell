@@ -16,21 +16,23 @@
  */
 int main(int ac, char **av, char **env)
 {
-	int status;
+	int status = 1;
 	char *line, *file_path;
 	words_n wrds;
 	pid_t child_pid;
 
-	while(1)
+	while(status)
 	{
 		line = init_shell();
+		if (line == NULL)
+			break;
 
 		wrds = split_str(line);
 		if (wrds.array == NULL)
 			continue;
 
 		status = check_builtins(wrds.array[0]);
-		if (status == 1)
+		if (status == 0)
 		{
 			free(line);
 			free(wrds.array);
@@ -54,16 +56,17 @@ int main(int ac, char **av, char **env)
 			}
 			wait(&status);
 		}
-		free(line);
-		free(wrds.array);
 	}
+	free(line);
+	free(wrds.array);
 	return (0);
 }
 
 /**
  * init_shell - initializes a simple unix shell.
  *
- * Return: line/string of commands typed on the shell.
+ * Return: on success, line/string of commands typed on the shell.
+ * on failure, NULL.
  */
 char *init_shell(void)
 {
@@ -76,7 +79,7 @@ char *init_shell(void)
 	if (line_size < 0)
 	{
 		free(line);
-		exit(EXIT_FAILURE);
+		return (NULL);
 	}
 
 	/**
