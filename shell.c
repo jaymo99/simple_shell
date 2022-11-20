@@ -72,7 +72,9 @@ char *init_shell(void)
 	size_t len = 0;
 	ssize_t line_size;
 
-	printf("#cisfun$ ");
+	if (isatty(STDIN_FILENO))
+		printf("#cisfun$ ");
+
 	line_size = getline(&line, &len, stdin);
 	if (line_size < 0)
 	{
