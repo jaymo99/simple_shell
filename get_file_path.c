@@ -17,7 +17,7 @@ char *get_file_path(char *file)
 {
 	int st;
 	size_t len = 0;
-	char *env_path, *str, *token;
+	char *env_path, *file_path, *str, *token;
 	struct stat statbuf;
 
 	env_path = getenv("PATH");
@@ -48,7 +48,11 @@ char *get_file_path(char *file)
 	if (st == 0)
 		return (file);
 	else
-		return (find_file(token, file));
+	{
+		file_path = find_file(token, file);
+		free(str);
+		return (file_path);
+	}
 }
 
 /**

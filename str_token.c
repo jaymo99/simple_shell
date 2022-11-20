@@ -12,22 +12,22 @@
  *	-> an array containing each word of the string.
  *	-> number of items in the array.
  */
-words_n split_str(char *str)
+words_n split_str(char **str)
 {
 	words_n wrds;
-	char **array = NULL;
+	char **array;
 	char *token, *copy;
 	int i = 0, num_words = 0, len = 0;
 
 	/* determine the number of words in the string */
-	len = strlen(str) + 1;
+	len = strlen(*str) + 1;
 	copy = malloc(sizeof(char) * len);
 	if (copy == NULL)
 	{
 		perror("malloc failed to create copy");
 		exit(EXIT_FAILURE);
 	}
-	strcpy(copy, str);
+	strcpy(copy, *str);
 	token = strtok(copy, " ");
 	while (token != NULL)
 	{
@@ -40,7 +40,6 @@ words_n split_str(char *str)
 	/* insert tokens to array */
 	if (num_words != 0)
 	{
-		token = strtok(str, " ");
 		array = malloc(sizeof(char *) * num_words);
 		if (array == NULL)
 		{
@@ -48,6 +47,7 @@ words_n split_str(char *str)
 			exit(EXIT_FAILURE);
 		}
 
+		token = strtok(*str, " ");
 		while (token != NULL)
 		{
 			array[i++] = token;

@@ -27,15 +27,13 @@ int main(int ac, char **av, char **env)
 		if (line == NULL)
 			break;
 
-		wrds = split_str(line);
+		wrds = split_str(&line);
 		if (wrds.array == NULL)
 			continue;
 
 		status = check_builtins(wrds.array[0]);
 		if (status == 0)
-		{
 			break;
-		}
 
 		file_path = get_file_path(wrds.array[0]);
 		if (file_path == NULL)
@@ -57,13 +55,14 @@ int main(int ac, char **av, char **env)
 	}
 	free(line);
 	free(wrds.array);
+	free(file_path);
 	return (0);
 }
 
 /**
  * init_shell - initializes a simple unix shell.
  *
- * Return: on success, line/string of commands typed on the shell.
+ * Return: on success, line/string of commands input on the shell.
  * on failure, NULL.
  */
 char *init_shell(void)
