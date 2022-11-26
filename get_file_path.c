@@ -46,7 +46,10 @@ char *get_file_path(char *file)
 
 	st = stat(file, &statbuf);
 	if (st == 0)
+	{
+		free(str);
 		return (file);
+	}
 	else
 	{
 		file_path = find_file(token, file);

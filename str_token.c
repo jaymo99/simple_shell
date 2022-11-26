@@ -40,7 +40,8 @@ words_n split_str(char **str)
 	/* insert tokens to array */
 	if (num_words != 0)
 	{
-		array = malloc(sizeof(char *) * num_words);
+		/* num_words + 1, adds one for NULL at the end */
+		array = malloc(sizeof(char *) * (num_words + 1));
 		if (array == NULL)
 		{
 			perror("malloc failed to create array");
@@ -53,6 +54,7 @@ words_n split_str(char **str)
 			array[i++] = token;
 			token = strtok(NULL, " ");
 		}
+		array[i++] = NULL;
 	}
 	wrds.array = array;
 	wrds.num = num_words;

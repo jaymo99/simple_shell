@@ -54,7 +54,8 @@ int main(int ac, char **av, char **env)
 				}
 				exit(EXIT_FAILURE);
 			}
-			wait(&status);
+			else
+				wait(&status);
 		}
 	}
 	free(line);
