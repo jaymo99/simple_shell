@@ -37,7 +37,11 @@ int main(int ac, char **av, char **env)
 
 		file_path = get_file_path(wrds.array[0]);
 		if (file_path == NULL)
+		{
 			printf("command '%s' not found\n", wrds.array[0]);
+			free(line);
+			free(wrds.array);
+		}
 		else
 		{
 			child_pid = fork();
