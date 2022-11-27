@@ -25,7 +25,7 @@ int main(int ac, char **av, char **env)
 	{
 		line = init_shell();
 		if (line == NULL)
-			break;
+			exit(EXIT_SUCCESS);
 
 		wrds = split_str(&line);
 		if (wrds.array == NULL)
