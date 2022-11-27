@@ -39,8 +39,6 @@ int main(int ac, char **av, char **env)
 		if (file_path == NULL)
 		{
 			printf("command '%s' not found\n", wrds.array[0]);
-			free(line);
-			free(wrds.array);
 		}
 		else
 		{
@@ -57,10 +55,17 @@ int main(int ac, char **av, char **env)
 			else
 				wait(&status);
 		}
-	}
+		if (line == file_path)
+			free(line);
+		else
+		{
+			free(line);
+			free(file_path);
+		}
+		free(wrds.array);
+	} /* end While (ac) */
 	free(line);
 	free(wrds.array);
-	free(file_path);
 	return (0);
 }
 
